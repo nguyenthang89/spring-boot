@@ -12,3 +12,6 @@
 
 ### API
 RESTful API for Android.
+
+###MultiHttpConfig
+Both SpringSecurity for API and WEB
