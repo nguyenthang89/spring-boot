@@ -1,9 +1,9 @@
 ## Spring Shop
 NOTE
-[ERROR] 
+### [ERROR] 
 Failed to execute goal ....Fatal error compiling : java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTags 
 CAUSE BY lombok.
-HOW TO FIX: Add dependecy lombok for Java >= 10
+### HOW TO FIX: Add dependecy lombok for Java >= 10
 
     <dependency>
         <groupId>org.projectlombok</groupId>
