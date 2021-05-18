@@ -2,7 +2,7 @@ package com.yuen.domain.api;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class UserDontUse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -11,11 +11,11 @@ public class User implements Serializable {
 	private String email;
 	private String password;
 
-	public User() {
+	public UserDontUse() {
 		super();
 	}
 
-	public User(int id, String name, String email, String password) {
+	public UserDontUse(int id, String name, String email, String password) {
 		super();
 		this.id = id;
 		this.name = name;

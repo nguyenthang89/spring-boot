@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.yuen.domain.web.User;
 
-public interface UserService {
+public interface UserService{
 
 	List<User> findAll();
 	
@@ -14,7 +14,7 @@ public interface UserService {
 	
 	void delete(Integer id);
 	
-	com.yuen.domain.api.User checkLogin(com.yuen.domain.api.User user);
+	User checkLogin(User user);
 	
 	boolean register(User user);
 	

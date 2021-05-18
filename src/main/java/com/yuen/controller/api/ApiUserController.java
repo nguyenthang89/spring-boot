@@ -12,22 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yuen.domain.api.User;
 import com.yuen.domain.web.CustomUserDetails;
+import com.yuen.domain.web.User;
 import com.yuen.jwt.JwtTokenProvider;
-import com.yuen.payload.LoginRequest;
 import com.yuen.payload.LoginResponse;
-import com.yuen.service.RoleService;
-import com.yuen.service.UserService;
 
 @RestController
 public class ApiUserController {
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private RoleService roleService;
 
 	// @Autowired
 	// private PasswordEncoder passwordEncoder;
