@@ -14,6 +14,16 @@ public class CustomUserDetails implements UserDetails {
 	
 	private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 	
+	
+	public CustomUserDetails(User user) {
+		super();
+		this.user = user;
+	}
+
+	public CustomUserDetails() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public User getUser() {
 		return user;
 	}
