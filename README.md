@@ -1,8 +1,8 @@
 ## Spring Shop
 NOTE
 ### [ERROR] 
-Failed to execute goal ....Fatal error compiling : java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTags 
-CAUSE BY lombok.
+ --> Failed to execute goal ....Fatal error compiling : java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTags 
+### CAUSE BY: lombok.
 ### HOW TO FIX: Add dependecy lombok for Java >= 10
 
     <dependency>
@@ -16,7 +16,6 @@ CAUSE BY lombok.
 
 
 ### Admin
-
 - Dashboard: count all current users, categories, products, orders. Show latest orders.
 - Customer Manager: list, delete, order history.
 - Category Manager: list, add, edit, delete.
