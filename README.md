@@ -5,12 +5,12 @@ Failed to execute goal ....Fatal error compiling : java.lang.ExceptionInInitiali
 CAUSE BY lombok.
 HOW TO FIX: Add dependecy lombok for Java >= 10
 
-<dependency>
-    <groupId>org.projectlombok</groupId>
-    <artifactId>lombok</artifactId>
-    <version>1.18.2</version>
-    <scope>provided</scope>
-</dependency>
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.2</version>
+        <scope>provided</scope>
+    </dependency>
 
 
 
