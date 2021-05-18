@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
 			ret.setName(dbUser.getName());
 			ret.setEmail(dbUser.getEmail());
 		}
-		System.err.println(user.getPassword().toString()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		return ret;
 	}
 	
