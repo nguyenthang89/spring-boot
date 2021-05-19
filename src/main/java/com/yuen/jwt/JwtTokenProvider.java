@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
-import com.yuen.domain.web.CustomUserDetails;
+import com.yuen.domain.web.MyUserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -17,13 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-	// Đoạn JWT_SECRET này là bí mật, chỉ có phía server biết
-	private final String JWT_SECRET = "lodaaaaaa";
+	
+	private final String JWT_SECRET = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCeyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZ";
 
 	// Set time 30 second
 	private final long JWT_EXPIRATION = 300000L;
 
-	public String generateToken(CustomUserDetails userDetails) {
+	public String generateToken(MyUserDetails userDetails) {
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
 		// Generate token from Email

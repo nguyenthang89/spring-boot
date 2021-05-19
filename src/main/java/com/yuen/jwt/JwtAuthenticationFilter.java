@@ -15,8 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.yuen.service.UserDetailsServiceImpl;
-
+import com.yuen.service.MyUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -24,9 +23,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	
 	@Autowired
     private JwtTokenProvider tokenProvider;
-
+	
     @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;   
+    private MyUserDetailsService myUserDetailsService;   
     
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -35,16 +34,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	            String jwt = getJwtFromRequest(request);
 
 	            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-	                // Lấy id user từ chuỗi jwt
 	                String email = tokenProvider.getEmailFromJWT(jwt);
-	                // Lấy thông tin người dùng từ Email
-	                UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(email);
+	                UserDetails userDetails = myUserDetailsService.loadUserByUsername(email);
 	                if(userDetails != null) {
-	                    // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
 	                    UsernamePasswordAuthenticationToken
 	                            authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
 	                    SecurityContextHolder.getContext().setAuthentication(authentication);
 	                }
 	            }

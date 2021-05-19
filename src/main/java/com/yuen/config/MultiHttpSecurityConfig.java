@@ -11,20 +11,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.yuen.jwt.JwtAuthenticationFilter;
-import com.yuen.service.UserDetailsServiceImpl;
+import com.yuen.service.MyUserDetailsService;
 
 @EnableWebSecurity
 public class MultiHttpSecurityConfig {
 
-	//Web Security
+	// Web Security
 	@Configuration
 	public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
+
 		@Autowired
-		private UserDetailsService userDetailsService;
+		MyUserDetailsService myUserDetailsService;
 
 		/*
 		 * @Bean public PasswordEncoder passwordEncoder() { return new
@@ -32,7 +32,7 @@ public class MultiHttpSecurityConfig {
 		 */
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userDetailsService);
+			auth.userDetailsService(myUserDetailsService);
 		}
 
 		// Authentication and Authorization
@@ -47,18 +47,19 @@ public class MultiHttpSecurityConfig {
 		}
 	}
 
-	//Rest Security
+	// Rest Security
 	@Configuration
 	@Order(1)
 	public class ApiSecurityAdapter extends WebSecurityConfigurerAdapter {
 
 		@Autowired
-		private UserDetailsServiceImpl userDetailsService;
+		MyUserDetailsService myUserDetailsService;
 
 		/*
 		 * @Bean public PasswordEncoder passwordEncoder() { return new
 		 * BCryptPasswordEncoder(); }
 		 */
+
 		@Bean
 		public JwtAuthenticationFilter jwtAuthenticationFilter() {
 			return new JwtAuthenticationFilter();
@@ -73,16 +74,19 @@ public class MultiHttpSecurityConfig {
 
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userDetailsService);
+			auth.userDetailsService(myUserDetailsService);
 		}
 
-		// Authentication and Authorization
+		// Authorization
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable();
 			http.antMatcher("/api/**") // <= Security only available for /api/**
-					.authorizeRequests().antMatchers("/api/register").permitAll().antMatchers("/api/login").permitAll()
-					.antMatchers("/api/public").permitAll().antMatchers("/api/lost").permitAll()
+					.authorizeRequests()
+					.antMatchers("/api/register").permitAll()
+					.antMatchers("/api/login").permitAll()
+					.antMatchers("/api/public").permitAll()
+					.antMatchers("/api/lost").permitAll()
 					.antMatchers("/api/v1/**").authenticated().and().sessionManagement()
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 			http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yuen.domain.web.CustomUserDetails;
+import com.yuen.domain.web.MyUserDetails;
 import com.yuen.domain.web.User;
 import com.yuen.jwt.JwtTokenProvider;
 import com.yuen.payload.LoginResponse;
@@ -39,7 +39,7 @@ public class ApiUserController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// Trả về jwt cho người dùng.
-		String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+		String jwt = tokenProvider.generateToken((MyUserDetails) authentication.getPrincipal());
 		return new LoginResponse(jwt);
 	}
 
