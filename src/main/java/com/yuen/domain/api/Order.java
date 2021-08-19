@@ -3,6 +3,8 @@ package com.yuen.domain.api;
 import java.io.Serializable;
 import java.util.List;
 
+import com.yuen.domain.web.User;
+
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;

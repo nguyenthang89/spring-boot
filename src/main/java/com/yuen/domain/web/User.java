@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,63 +16,66 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, unique = true)
 	private int id;
-	
-	@NotEmpty
+
+	//@NotEmpty
 	@Length(max = 100)
 	@Column(name = "name", nullable = false)
 	private String name;
-	
-	@NotEmpty
+
+	//@NotEmpty
 	@Email
 	@Column(name = "email", nullable = false)
 	private String email;
-	
-	@NotEmpty
-	@Length(min = 8)
+
+	//@NotEmpty
+	@Length(min = 5)
 	@Column(name = "password", nullable = false)
 	private String password;
-		
-	@Transient
-	private String confirmPassword;
-	
+
+	//@Transient
+	//private String confirmPassword;
+
+	@JsonBackReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<Order> orders = new HashSet<>();
-	
-	@JoinTable(
-		name = "user_role", 
-		joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, 
-		inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
-	)
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private Set<Role> roles = new HashSet<>();
-	
-	
+
+	@JoinTable(name = "user_role", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "role_id", referencedColumnName = "id") })
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER )
+	private Set<Role> roles = new HashSet<>();
+
 	public User() {
-		
-	}
-	
-	public User(String name, String email, String password) {
+
+	}	
+
+	public User(int id, String name, String email, String password, Set<Role> role) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.roles = role;
 	}
+	
+	/*
+	 * public User(String name, String email, String password) { super(); this.name
+	 * = name; this.email = email; this.password = password; }
+	 */
 
 	public int getId() {
 		return id;
@@ -105,28 +109,27 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
+	/*
+	 * public String getConfirmPassword() { return confirmPassword; }
+	 * 
+	 * public void setConfirmPassword(String confirmPassword) { this.confirmPassword
+	 * = confirmPassword; }
+	 */
 
 	public Set<Order> getOrders() {
 		return orders;
 	}
-	
+
 	public void addOrder(Order order) {
 		orders.add(order);
 		order.setUser(this);
 	}
-	
+
 	public void removeOrder(Order order) {
 		orders.remove(order);
 		order.setUser(null);
 	}
-	
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -135,7 +138,7 @@ public class User implements Serializable {
 		roles.add(role);
 		role.getUsers().add(this);
 	}
-	
+
 	public void removeRole(Role role) {
 		roles.remove(role);
 		role.getUsers().remove(this);
