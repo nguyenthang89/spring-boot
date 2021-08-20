@@ -44,19 +44,18 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public com.yuen.domain.api.User checkLogin(com.yuen.domain.api.User user) {
-		com.yuen.domain.api.User ret = null;
+	public User checkLogin(User user) {
+		User ret = null;
 		
 		User dbUser = userRepository.findByEmail(user.getEmail());
 		
 		if (dbUser != null 
 				&& user.getPassword().matches( dbUser.getPassword())) {
-			ret = new com.yuen.domain.api.User();
+			ret = new User();
 			ret.setId(dbUser.getId());
 			ret.setName(dbUser.getName());
 			ret.setEmail(dbUser.getEmail());
 		}
-		System.err.println(user.getPassword().toString()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		return ret;
 	}
 	
